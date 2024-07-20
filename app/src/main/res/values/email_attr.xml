@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomEmail">
+        <attr name="emailImage" format="reference"/>
+        <attr name="emailTitle" format="string"/>
+        <attr name="emailSubtitle" format="string"/>
+        <attr name="emailContents" format="string"/>
+        <attr name="emailDate" format="string"/>
+        <attr name="android:ellipsize" format="reference"/>
+        <attr name="maxLines" format="integer"/>
+        <attr name="profileLetter" format="string"/>
+        <attr name="profileColor" format="color"/>
+    </declare-styleable>
+</resources>
