@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:id="@+id/group1">
+    <item android:id="@+id/markAsRead"
+        android:title="Mark as read"/>
+    <item android:id="@+id/markAsUnread"
+        android:title="Mark as unread"/>
+    </group>
+    <group android:id="@+id/group2">
+    <item android:id="@+id/sendEmail"
+        app:showAsAction="always"
+        android:title="Send Email"
+        android:iconTint="@color/white"
+        android:icon="@drawable/baseline_send_24" />
+    </group>
+
+</menu>

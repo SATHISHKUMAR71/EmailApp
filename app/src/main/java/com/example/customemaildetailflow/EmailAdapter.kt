@@ -20,17 +20,17 @@ import com.google.android.material.appbar.MaterialToolbar
 
 class EmailAdapter(var emailListVM:MutableList<Email>,val activity: FragmentActivity,var viewModel: MainActivityViewModel) : RecyclerView.Adapter<EmailAdapter.EmailViewHolder>() {
 
+
     inner class EmailViewHolder(itemView:View) : RecyclerView.ViewHolder(itemView){
         fun bindData(email:CustomEmail,position:Int){
             email.setDate(emailListVM[position].date)
             email.setTitle(emailListVM[position].title)
             email.setContent(emailListVM[position].content)
-            email.setProfileLetter(emailListVM[position].title[0].toString())
+            email.setProfileLetter(emailListVM[position].title[0].uppercaseChar().toString())
             email.setSubtitle(emailListVM[position].subtitle)
             isViewed(email,position)
             isStarred(email, position)
         }
-
         fun isViewed(email: CustomEmail,position: Int){
             if(emailListVM[position].isViewed){
                 email.getTitle().typeface = Typeface.DEFAULT
@@ -74,7 +74,6 @@ class EmailAdapter(var emailListVM:MutableList<Email>,val activity: FragmentActi
                 viewModel.selectedItem.value = emailListVM[position]
                 holder.isViewed(email,position)
                 if(resources.configuration.screenWidthDp<700){
-//                    activity.findViewById<AppBarLayout>(R.id.appBarLayout).findViewById<MaterialToolbar>(R.id.toolbar).setNavigationIcon(R.drawable.baseline_arrow_back_24)
                     activity.supportFragmentManager.beginTransaction()
                         .replace(R.id.fragmentEmailList,EmailDetailFragment())
                         .addToBackStack("Fragment Detail")
@@ -85,15 +84,10 @@ class EmailAdapter(var emailListVM:MutableList<Email>,val activity: FragmentActi
                 holder.isStarred(email,position)
             })
             star.setOnClickListener {
-                if(emailListVM[position].isStarred){
-                    emailListVM[position].isStarred = false
-                    email.getStar().setImageResource(R.drawable.baseline_star_outline_24)
-                }
-                else{
-                    emailListVM[position].isStarred = true
-                    email.getStar().setImageResource(R.drawable.baseline_star_24)
-                }
+                emailListVM[position].isStarred = !emailListVM[position].isStarred
+                holder.isStarred(email,position)
                 viewModel.selectedItem.value = emailListVM[position]
+                notifyItemChanged(position)
             }
         }
     }

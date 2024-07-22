@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ScrollView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.transition.TransitionInflater
@@ -18,6 +19,8 @@ import com.google.android.material.appbar.MaterialToolbar
 class EmailDetailFragment : Fragment() {
 
     private lateinit var title:TextView
+    private lateinit var appbar:AppBarLayout
+    private lateinit var toolbar:MaterialToolbar
     private lateinit var subtitle:TextView
     private lateinit var content:TextView
     private lateinit var date:TextView
@@ -45,6 +48,9 @@ class EmailDetailFragment : Fragment() {
         view.transitionName = arguments?.getString("transitionName")
         profileView = view.findViewById(R.id.profileView)
         scrollView = view.findViewById(R.id.scrollViewEmailDetail)
+        appbar = requireActivity().findViewById(R.id.appBarLayout)
+        toolbar = requireActivity().findViewById(R.id.toolbar)
+        toolbar.menu.setGroupVisible(R.id.group1,true)
         view.visibility = View.INVISIBLE
 
 
@@ -68,9 +74,7 @@ class EmailDetailFragment : Fragment() {
             else{
                 starImage.setImageResource(R.drawable.baseline_star_outline_24)
             }
-            profileView.text = email.title[0].toString()
-
-
+            profileView.text = email.title[0].uppercaseChar().toString()
             starImage.setOnClickListener {
                 if(email.isStarred){
                     email.isStarred = false
@@ -85,5 +89,7 @@ class EmailDetailFragment : Fragment() {
         })
         return view
     }
-
+    override fun onDestroy() {
+        super.onDestroy()
+    }
 }
