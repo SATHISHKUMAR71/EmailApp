@@ -15,6 +15,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.MaterialToolbar
 
 class EmailAdapter(var emailListVM:MutableList<Email>,val activity: FragmentActivity,var viewModel: MainActivityViewModel) : RecyclerView.Adapter<EmailAdapter.EmailViewHolder>() {
 
@@ -72,6 +74,7 @@ class EmailAdapter(var emailListVM:MutableList<Email>,val activity: FragmentActi
                 viewModel.selectedItem.value = emailListVM[position]
                 holder.isViewed(email,position)
                 if(resources.configuration.screenWidthDp<700){
+//                    activity.findViewById<AppBarLayout>(R.id.appBarLayout).findViewById<MaterialToolbar>(R.id.toolbar).setNavigationIcon(R.drawable.baseline_arrow_back_24)
                     activity.supportFragmentManager.beginTransaction()
                         .replace(R.id.fragmentEmailList,EmailDetailFragment())
                         .addToBackStack("Fragment Detail")

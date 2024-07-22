@@ -19,7 +19,7 @@ class MainActivityViewModel : ViewModel() {
     init {
         emailListVM.add(
                 Email(
-                    "HelloIEEE Conference on Computer Vision and Pattern Recognition is the biggest and one ofIEEE Conference on Computer Vision and Pattern Recognition is the biggest and one ofIEEE Conference on Computer Vision and Pattern Recognition is the biggest and one of",
+                    "Hello World",
                     "Hi Sathish",
                     "12 Seition is tition is tition is tition is tition is tptember",
                     "Interested in Java",
@@ -30,7 +30,7 @@ class MainActivityViewModel : ViewModel() {
         emailListVM.add(
             (
                 Email(
-                    "Googlesion and Pattern Rsion and Pattern ",
+                    "Google",
                     "New Sign in Activity",
                     "07 September",
                     "Hi Satish is that you signed your google account on the device MK210P",
@@ -103,7 +103,7 @@ class MainActivityViewModel : ViewModel() {
         emailListVM.add(
             (
                 Email(
-                    "Job OpportunityIEEE Conference on Computer Vision and Pattern Recognition is the biggest and one ofIEEE Conference on Computer Vision and Pattern Recognition is the biggest and one ofIEEE Conference on Computer Vision and Pattern Recognition is the biggest and one of",
+                    "Job Opportunity",
                     "ExcitingIEEE Conference on Computer Vision and Pattern Recognition is the biggest and one ofIEEE Conference on Computer Vision and Pattern Recognition is the biggest and one of Software Developer Position",
                     "25 August",
                     "Dear Candidate,\n\nWe are pleased to inform you about an exciting opportunity for a Software Developer role at our company. Please find attached the job description for more details.\n\nBest regards,\nHR Team",

@@ -12,6 +12,8 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.transition.TransitionInflater
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.MaterialToolbar
 
 class EmailDetailFragment : Fragment() {
 
@@ -19,14 +21,12 @@ class EmailDetailFragment : Fragment() {
     private lateinit var subtitle:TextView
     private lateinit var content:TextView
     private lateinit var date:TextView
-    private var isStarred=false
     private lateinit var viewModel: MainActivityViewModel
-    private var isViewed=false
     private lateinit var starImage:ImageView
     private lateinit var profileView:TextView
     private lateinit var view:View
     private lateinit var scrollView:ScrollView
-    private var isStarredDetail = false
+    private var currentTitle=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(requireActivity())[MainActivityViewModel::class.java]
@@ -45,13 +45,23 @@ class EmailDetailFragment : Fragment() {
         view.transitionName = arguments?.getString("transitionName")
         profileView = view.findViewById(R.id.profileView)
         scrollView = view.findViewById(R.id.scrollViewEmailDetail)
+        view.visibility = View.INVISIBLE
 
 
         viewModel.selectedItem.observe(viewLifecycleOwner, Observer { email ->
+            view.visibility = View.VISIBLE
+            scrollView.scrollTo(0,0)
             date.text = email.date
             title.text = email.title
+            currentTitle = email.title
             subtitle.text = email.subtitle
             content.text = email.content
+            if(resources.configuration.screenWidthDp<700){
+                activity?.findViewById<AppBarLayout>(R.id.appBarLayout)?.findViewById<MaterialToolbar>(R.id.toolbar)?.apply {
+                    setNavigationIcon(R.drawable.baseline_arrow_back_24)
+                    title = currentTitle
+                }
+            }
             if(email.isStarred){
                 starImage.setImageResource(R.drawable.baseline_star_24)
             }
@@ -59,7 +69,8 @@ class EmailDetailFragment : Fragment() {
                 starImage.setImageResource(R.drawable.baseline_star_outline_24)
             }
             profileView.text = email.title[0].toString()
-            scrollView.scrollTo(0,0)
+
+
             starImage.setOnClickListener {
                 if(email.isStarred){
                     email.isStarred = false
