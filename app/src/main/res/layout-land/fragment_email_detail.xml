@@ -27,23 +27,22 @@
             app:layout_constraintTop_toTopOf="parent">
 
 
-            <TextView
-                android:id="@+id/title"
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/titleTool"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="Title"
-                android:textAlignment="center"
-                android:textSize="32sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:title="Email Detail"
+                app:titleCentered="true"
+                app:menu="@menu/email_list_menu"
+                tools:layout_editor_absoluteX="20dp" />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_marginBottom="4dp"
                 android:background="@color/black"
-                app:layout_constraintBottom_toBottomOf="@+id/title"
+                app:layout_constraintBottom_toBottomOf="@+id/titleTool"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -53,7 +52,7 @@
                 android:layout_marginTop="20dp"
                 android:padding="20dp"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/title"
+                app:layout_constraintTop_toBottomOf="@+id/titleTool"
                 tools:layout_editor_absoluteX="20dp">
 
                 <TextView

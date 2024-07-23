@@ -44,12 +44,8 @@ class ComposeEmailFragment : Fragment() {
         val emailContent = view.findViewById<EditText>(R.id.emailContent)
         val radioGroup = view.findViewById<RadioGroup>(R.id.radioGroup)
 
-//        Updating Activity Toolbar
-        val activityToolbar = requireActivity().findViewById<AppBarLayout>(R.id.appBarLayout).findViewById<MaterialToolbar>(R.id.toolbar)
-        activityToolbar.apply {
-            menu.setGroupVisible(R.id.group2,true)
-        }
-        activityToolbar.setNavigationIcon(R.drawable.baseline_arrow_back_24)
+        val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbar)
+
 
 
         val emailRegex = Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}\$")
@@ -68,7 +64,10 @@ class ComposeEmailFragment : Fragment() {
         })
 
 
-        activityToolbar.menu.findItem(R.id.sendEmail).setOnMenuItemClickListener {
+        toolbar.setNavigationOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+        toolbar.menu.findItem(R.id.sendEmail).setOnMenuItemClickListener {
             println(editTextTo.text)
             println(checkBox.isChecked)
             println(editTextTo.text)
@@ -103,12 +102,6 @@ class ComposeEmailFragment : Fragment() {
                 checkBox.isChecked = false
                 editTextTo.error = null
                 radioGroup.clearCheck()
-                activityToolbar.apply {
-                    menu.setGroupVisible(R.id.group2,false)
-
-                    title = "Email"
-                    navigationIcon = ContextCompat.getDrawable(context,R.drawable.baseline_menu_24)
-                }
                 requireActivity().supportFragmentManager.popBackStack()
             }
             else{

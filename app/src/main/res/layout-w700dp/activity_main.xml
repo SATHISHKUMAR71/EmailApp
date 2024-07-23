@@ -22,10 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
-            app:navigationIcon="@drawable/baseline_menu_24"
             app:navigationIconTint="@color/white"
             app:title="Email"
-            app:menu="@menu/toolbar_menu"
             app:titleCentered="true"
             app:titleTextColor="@color/white" />
     </com.google.android.material.appbar.AppBarLayout>

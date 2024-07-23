@@ -25,13 +25,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        appbar = findViewById(R.id.appBarLayout)
-        toolbar = findViewById(R.id.toolbar)
-        toolbar.apply {
-            menu.setGroupVisible(R.id.group2,false)
-            menu.setGroupVisible(R.id.group1,false)
-        }
-
         val viewModel = ViewModelProvider(this)[MainActivityViewModel::class.java]
         if ((savedInstanceState == null)) {
             supportFragmentManager.beginTransaction()
@@ -49,25 +42,7 @@ class MainActivity : AppCompatActivity() {
                 .replace(R.id.fragmentEmailList, fragmentEmailList, "Email Fragment List")
                 .commit()
         }
-        findViewById<MaterialToolbar?>(R.id.toolbar)?.setNavigationOnClickListener {
-            supportFragmentManager.popBackStack()
-            appbar.findViewById<MaterialToolbar>(R.id.toolbar)?.apply {
-                title = "Email"
-                navigationIcon = ContextCompat.getDrawable(baseContext,R.drawable.baseline_menu_24)
-                toolbar.menu.setGroupVisible(R.id.group1,false)
-                toolbar.menu.setGroupVisible(R.id.group2,false)
-            }
-        }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        appbar.findViewById<MaterialToolbar>(R.id.toolbar)?.apply {
-            title = "Email"
-            navigationIcon = ContextCompat.getDrawable(baseContext,R.drawable.baseline_menu_24)
-            toolbar.menu.setGroupVisible(R.id.group1,false)
-            toolbar.menu.setGroupVisible(R.id.group2,false)
-        }
-    }
 }
 

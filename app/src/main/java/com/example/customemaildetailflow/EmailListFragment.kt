@@ -44,15 +44,14 @@ class EmailListFragment : Fragment() {
         val view =  inflater.inflate(R.layout.fragment_email_list, container, false)
         val rv = view.findViewById<RecyclerView>(R.id.rv)
         val adapter = EmailAdapter(viewModel.emailListVM,requireActivity(),viewModel)
-
         rv.adapter = adapter
         viewModel.addedItem.observe(requireActivity(), Observer {
+            adapter.notifyItemInserted(0)
             adapter.notifyDataSetChanged()
             rv.scrollToPosition(0)
         })
         rv.layoutManager =LinearLayoutManager(context)
         if(resources.configuration.screenWidthDp<700){
-
             view.findViewById<ExtendedFloatingActionButton>(R.id.composeEmail).setOnClickListener {
                 requireActivity().supportFragmentManager.beginTransaction()
                     .replace(R.id.fragmentEmailList,ComposeEmailFragment())
@@ -78,12 +77,6 @@ class EmailListFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-//        requireActivity().findViewById<MaterialToolbar>(R.id.toolbar)?.apply {
-//            title = "Email"
-//            navigationIcon = ContextCompat.getDrawable(context,R.drawable.baseline_menu_24)
-//            menu.setGroupVisible(R.id.group1,false)
-//            menu.setGroupVisible(R.id.group2,false)
-//        }
         println("On DestroyView")
     }
 
@@ -91,5 +84,4 @@ class EmailListFragment : Fragment() {
         super.onDestroy()
         println("On Destroy")
     }
-
 }

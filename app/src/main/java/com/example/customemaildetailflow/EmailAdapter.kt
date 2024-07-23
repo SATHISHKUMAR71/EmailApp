@@ -82,6 +82,7 @@ class EmailAdapter(var emailListVM:MutableList<Email>,val activity: FragmentActi
             }
             viewModel.selectedItem.observe(context as FragmentActivity, Observer {
                 holder.isStarred(email,position)
+                holder.isViewed(email,position)
             })
             star.setOnClickListener {
                 emailListVM[position].isStarred = !emailListVM[position].isStarred
