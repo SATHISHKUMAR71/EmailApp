@@ -55,12 +55,12 @@ class EmailDetailFragment : Fragment() {
             toolbar = view.findViewById(R.id.toolbar)
             toolbar.menu.findItem(R.id.markAsRead).setOnMenuItemClickListener {
                 updateView(emailG,true)
-                Toast.makeText(context,"Mark as Read",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"Marked as Read",Toast.LENGTH_SHORT).show()
                 true
             }
             toolbar.menu.findItem(R.id.markAsUnread).setOnMenuItemClickListener {
                 updateView(emailG,false)
-                Toast.makeText(context,"Mark as Unread",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"Marked as Unread",Toast.LENGTH_SHORT).show()
                 true
             }
             toolbar.setNavigationOnClickListener {
@@ -71,12 +71,12 @@ class EmailDetailFragment : Fragment() {
             titleTool = view.findViewById(R.id.titleTool)
             titleTool.menu.findItem(R.id.markAsRead).setOnMenuItemClickListener {
                 updateView(emailG,true)
-                Toast.makeText(context,"Mark as Read",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"Marked as Read",Toast.LENGTH_SHORT).show()
                 true
             }
             titleTool.menu.findItem(R.id.markAsUnread).setOnMenuItemClickListener {
                 updateView(emailG,false)
-                Toast.makeText(context,"Mark as Unread",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"Marked as Unread",Toast.LENGTH_SHORT).show()
                 true
             }
         }
@@ -91,6 +91,7 @@ class EmailDetailFragment : Fragment() {
                 titleTool.title = email.title
             }
             else{
+                toolbar.title = email.title
                 title.text = email.title
             }
             currentTitle = email.title
