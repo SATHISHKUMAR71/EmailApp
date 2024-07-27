@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/mainMenu">
+        <item android:id="@+id/starredEmail"
+            android:title="Starred"/>
+        <item android:id="@+id/sentEmail"
+            android:title="Sent"/>
+        <item android:id="@+id/importantEmail"
+            android:title="Important"/>
+        <item android:id="@+id/businessEmail"
+            android:title="Business"/>
+        <item android:id="@+id/personnelEmail"
+            android:title="Personnel"/>
+        <item android:id="@+id/socialEmail"
+            android:title="Social"/>
+    </group>
+</menu>

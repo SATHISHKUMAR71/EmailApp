@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
             app:navigationIconTint="@color/white"
+            app:navigationIcon="@drawable/baseline_menu_24"
             app:title="Email"
             app:titleCentered="true"
             app:titleTextColor="@color/white" />
