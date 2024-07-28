@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
         if(resources.configuration.screenWidthDp<700){
+
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentEmailList, fragmentEmailList, "Email Fragment List")
                 .commit()

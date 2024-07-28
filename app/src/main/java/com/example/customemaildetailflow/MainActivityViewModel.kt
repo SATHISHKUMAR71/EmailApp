@@ -2,14 +2,21 @@ package com.example.customemaildetailflow
 
 
 
+import android.app.Application
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 
 class MainActivityViewModel : ViewModel() {
 
     var emailListVM = mutableListOf<Email>()
     var selectedItem = MutableLiveData<Email>()
     var addedItem = MutableLiveData<Email>()
+
     fun setSelectedItem(email:Email){
         selectedItem.value=email
     }

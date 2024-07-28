@@ -14,7 +14,14 @@ import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textfield.TextInputEditText
@@ -96,6 +103,14 @@ class ComposeEmailFragment : Fragment() {
             if((editTextTo.text != null) && (subject.text != null) && (emailContent.text != null)&&(radioGroup.checkedRadioButtonId!=-1)){
                 viewModel.addItem(Email(title = editTextTo.text.toString(), subtitle = subject.text.toString(), date = "07 july",
                     content = emailContent.text.toString(), isStarred = false, isViewed = false, important = emailType, notifySender = checkBox.isChecked))
+                val constraints = Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build()
+                val workManager = WorkManager.getInstance(requireActivity().applicationContext)
+                val emailSender = OneTimeWorkRequest.Builder(DBSyncWorkers::class.java)
+                    .setConstraints(constraints)
+                    .build()
+                workManager.enqueue(emailSender)
                 editTextTo.text = null
                 subject.text = null
                 emailContent.text = null
