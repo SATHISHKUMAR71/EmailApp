@@ -11,6 +11,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkInfo
@@ -32,6 +34,7 @@ class EmailDetailFragment : Fragment() {
     private lateinit var starImage:ImageView
     private lateinit var profileView:TextView
     private lateinit var view:View
+    private lateinit var recyclerView:RecyclerView
     private lateinit var scrollView:ScrollView
     private var currentTitle=""
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,20 +55,22 @@ class EmailDetailFragment : Fragment() {
         view.transitionName = arguments?.getString("transitionName")
         profileView = view.findViewById(R.id.profileView)
         scrollView = view.findViewById(R.id.scrollViewEmailDetail)
-        view.findViewById<ImageView>(R.id.downloadAttachment).apply {
-            setOnClickListener {
-                viewModel.enqueueDownloadWork(Data.Builder().putString("work","downloadData").build())
-                visibility = View.INVISIBLE
-            }
-        }
-        view.findViewById<ImageView>(R.id.downloadAttachment1).apply {
-            setOnClickListener {
-                viewModel.enqueueDownloadWork(
-                    Data.Builder().putString("work", "downloadData").build()
-                )
-                visibility = View.INVISIBLE
-            }
-        }
+        recyclerView = view.findViewById(R.id.attachmentsRecyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+//        view.findViewById<ImageView>(R.id.downloadAttachment).apply {
+//            setOnClickListener {
+//                viewModel.enqueueDownloadWork(Data.Builder().putString("work","downloadData").build())
+//                visibility = View.INVISIBLE
+//            }
+//        }
+//        view.findViewById<ImageView>(R.id.downloadAttachment1).apply {
+//            setOnClickListener {
+//                viewModel.enqueueDownloadWork(
+//                    Data.Builder().putString("work", "downloadData").build()
+//                )
+//                visibility = View.INVISIBLE
+//            }
+//        }
         println("resources123: ${resources.configuration.screenWidthDp}")
         println("resources123: ${resources.configuration.screenWidthDp<700}")
         if(resources.configuration.screenWidthDp<700){
@@ -86,6 +91,7 @@ class EmailDetailFragment : Fragment() {
             }
         }
         else{
+
             println("Email Detail 12203 ${viewModel.appWorker==null}")
             println("Email Detail 12203 ${viewModel.appWorker}")
             if(viewModel.appWorker!=null && !viewModel.seen){
@@ -112,6 +118,8 @@ class EmailDetailFragment : Fragment() {
         view.visibility = View.INVISIBLE
 
         viewModel.selectedItem.observe(viewLifecycleOwner, Observer { email ->
+
+             recyclerView.adapter = AttachmentView(email.attachments,requireActivity(),viewModel)
             emailG = email
             view.visibility = View.VISIBLE
             scrollView.scrollTo(0,0)
@@ -149,6 +157,8 @@ class EmailDetailFragment : Fragment() {
         println("On CreateView")
         return view
     }
+
+
     override fun onDestroy() {
         super.onDestroy()
         println("On Destroy")

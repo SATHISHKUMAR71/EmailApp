@@ -99,7 +99,9 @@ class ComposeEmailFragment : Fragment() {
             }
             if((editTextTo.text != null) && (subject.text != null) && (emailContent.text != null)&&(radioGroup.checkedRadioButtonId!=-1)){
                 viewModel.addItem(Email(title = editTextTo.text.toString(), subtitle = subject.text.toString(), date = "07 july",
-                    content = emailContent.text.toString(), isStarred = false, isViewed = false, important = emailType, notifySender = checkBox.isChecked))
+                    content = emailContent.text.toString(), isStarred = false, isViewed = false, important = emailType, notifySender = checkBox.isChecked,
+                    listOf("Demo file"))
+                )
 
                 viewModel.enqueueSendEmailWork(
                     Data.Builder()

@@ -20,10 +20,7 @@ class AppWorker(context: Context, workerParameters: WorkerParameters):Worker(con
             }
         }
         else if(inputData.getString("work").equals("downloadData")){
-            for(i in 1..50000){
-                println("Downloading Data ${Thread.currentThread().id}")
-                println("Downloading Data ${Thread.currentThread().name}")
-            }
+            Thread.sleep(20000)
             println("Data Downloaded Successfully ${Thread.currentThread().id}")
             println("Data Downloaded Successfully ${Thread.currentThread().name}")
             val handler = Handler(Looper.getMainLooper())
