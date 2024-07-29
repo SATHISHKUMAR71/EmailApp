@@ -57,22 +57,6 @@ class EmailDetailFragment : Fragment() {
         scrollView = view.findViewById(R.id.scrollViewEmailDetail)
         recyclerView = view.findViewById(R.id.attachmentsRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
-//        view.findViewById<ImageView>(R.id.downloadAttachment).apply {
-//            setOnClickListener {
-//                viewModel.enqueueDownloadWork(Data.Builder().putString("work","downloadData").build())
-//                visibility = View.INVISIBLE
-//            }
-//        }
-//        view.findViewById<ImageView>(R.id.downloadAttachment1).apply {
-//            setOnClickListener {
-//                viewModel.enqueueDownloadWork(
-//                    Data.Builder().putString("work", "downloadData").build()
-//                )
-//                visibility = View.INVISIBLE
-//            }
-//        }
-        println("resources123: ${resources.configuration.screenWidthDp}")
-        println("resources123: ${resources.configuration.screenWidthDp<700}")
         if(resources.configuration.screenWidthDp<700){
             title = view.findViewById(R.id.title)
             toolbar = view.findViewById(R.id.toolbar)
@@ -119,7 +103,7 @@ class EmailDetailFragment : Fragment() {
 
         viewModel.selectedItem.observe(viewLifecycleOwner, Observer { email ->
 
-             recyclerView.adapter = AttachmentView(email.attachments,requireActivity(),viewModel)
+             recyclerView.adapter = AttachmentView(email.attachments,viewModel)
             emailG = email
             view.visibility = View.VISIBLE
             scrollView.scrollTo(0,0)

@@ -11,7 +11,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.work.Data
 
-class AttachmentView(private var attachmentList:List<String>, private val activity: FragmentActivity,var viewModel: MainActivityViewModel) :RecyclerView.Adapter<AttachmentView.AttachmentHolder>(){
+class AttachmentView(private var attachmentList:List<String>, private var viewModel: MainActivityViewModel) :RecyclerView.Adapter<AttachmentView.AttachmentHolder>(){
     inner class AttachmentHolder(attachmentView:View):RecyclerView.ViewHolder(attachmentView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AttachmentHolder {

@@ -30,9 +30,10 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appbar:AppBarLayout
     private lateinit var toolbar:MaterialToolbar
-    val fragmentEmailList = EmailListFragment()
-    val fragmentEmailDetail = EmailDetailFragment()
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        val fragmentEmailList = EmailListFragment()
+        val fragmentEmailDetail = EmailDetailFragment()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -48,10 +49,17 @@ class MainActivity : AppCompatActivity() {
             .build()
         workManager.enqueueUniquePeriodicWork("Data Sync",
             ExistingPeriodicWorkPolicy.KEEP,periodicWorker)
-        if ((savedInstanceState == null)) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentEmailList, fragmentEmailList, "Email Fragment List")
-                .commit()
+        if ((savedInstanceState == null)||(resources.configuration.screenWidthDp<700)) {
+            if(resources.configuration.screenWidthDp<700){
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentEmailList, fragmentEmailList, "Email Fragment List")
+                    .commit()
+            }
+            else{
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentEmailList, fragmentEmailList, "Email Fragment List")
+                    .commit()
+            }
         }
         if (resources.configuration.screenWidthDp >= 700) {
             supportFragmentManager.beginTransaction()
@@ -59,11 +67,7 @@ class MainActivity : AppCompatActivity() {
                 .replace(R.id.fragmentEmailDetail, fragmentEmailDetail)
                 .commit()
         }
-        if(resources.configuration.screenWidthDp<700){
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentEmailList, fragmentEmailList, "Email Fragment List")
-                .commit()
-        }
+
     }
 
 }

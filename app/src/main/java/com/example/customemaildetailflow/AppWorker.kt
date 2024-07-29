@@ -22,12 +22,14 @@ import androidx.work.WorkerParameters
 class AppWorker(context: Context, workerParameters: WorkerParameters):Worker(context,workerParameters) {
 
     private val notificationManager1 = NotificationManagerCompat.from(applicationContext)
-    override fun doWork(): Result {
 
+    init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotificationChannel()
-            showProgressNotification(0)
         }
+    }
+
+    override fun doWork(): Result {
 
         if(inputData.getString("work").equals("sendEmail")){
             Thread.sleep(2000)

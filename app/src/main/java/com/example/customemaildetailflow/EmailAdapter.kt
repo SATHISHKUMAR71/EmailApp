@@ -12,13 +12,18 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.findViewTreeLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.MaterialToolbar
 
-class EmailAdapter(var emailListVM:MutableList<Email>,val activity: FragmentActivity,var viewModel: MainActivityViewModel) : RecyclerView.Adapter<EmailAdapter.EmailViewHolder>() {
+class EmailAdapter(var emailListVM:MutableList<Email>, private val activity: FragmentActivity, var viewModel: MainActivityViewModel,
+                   private val lifecycle: LifecycleOwner) : RecyclerView.Adapter<EmailAdapter.EmailViewHolder>() {
 
 
     inner class EmailViewHolder(itemView:View) : RecyclerView.ViewHolder(itemView){
@@ -80,7 +85,7 @@ class EmailAdapter(var emailListVM:MutableList<Email>,val activity: FragmentActi
                         .commit()
                 }
             }
-            viewModel.selectedItem.observe(context as FragmentActivity, Observer {
+            viewModel.selectedItem.observe(lifecycle, Observer {
                 holder.isStarred(email,position)
                 holder.isViewed(email,position)
             })
