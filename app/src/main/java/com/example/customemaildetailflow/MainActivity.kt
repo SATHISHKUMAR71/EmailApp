@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequest
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import com.google.android.material.appbar.AppBarLayout
@@ -47,7 +48,6 @@ class MainActivity : AppCompatActivity() {
             .build()
         workManager.enqueueUniquePeriodicWork("Data Sync",
             ExistingPeriodicWorkPolicy.KEEP,periodicWorker)
-
         if ((savedInstanceState == null)) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentEmailList, fragmentEmailList, "Email Fragment List")

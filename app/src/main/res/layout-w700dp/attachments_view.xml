@@ -30,6 +30,7 @@
             android:textAlignment="center" />
 
         <ImageView
+            android:background="@drawable/download_ripple"
             android:id="@+id/downloadAttachment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
