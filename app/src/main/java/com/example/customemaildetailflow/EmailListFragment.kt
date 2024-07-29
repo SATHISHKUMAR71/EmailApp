@@ -63,6 +63,13 @@ class EmailListFragment : Fragment() {
         })
         rv.layoutManager =LinearLayoutManager(context)
         if(resources.configuration.screenWidthDp<700){
+            if(viewModel.appWorker!=null){
+                viewModel.workManager.getWorkInfoByIdLiveData(viewModel.appWorker!!.id).observe(viewLifecycleOwner){
+                    if((it != null) &&(it.state== WorkInfo.State.ENQUEUED)){
+                        Toast.makeText(context,"Email will be sent automatically once the device is online",Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
             view.findViewById<ExtendedFloatingActionButton>(R.id.composeEmail).setOnClickListener {
                 requireActivity().supportFragmentManager.beginTransaction()
                     .replace(R.id.fragmentEmailList,ComposeEmailFragment())
@@ -91,6 +98,10 @@ class EmailListFragment : Fragment() {
         println("On DestroyView")
     }
 
+    override fun onResume() {
+        super.onResume()
+        println("On Resume List")
+    }
     override fun onDestroy() {
         super.onDestroy()
         println("On Destroy")

@@ -3,20 +3,35 @@ package com.example.customemaildetailflow
 
 
 import android.app.Application
-import android.content.Context
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.work.Constraints
+import androidx.work.Data
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
+import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
+import java.util.concurrent.TimeUnit
 
-class MainActivityViewModel : ViewModel() {
+class MainActivityViewModel(application: Application) : AndroidViewModel(application) {
 
+    var seen = false
     var emailListVM = mutableListOf<Email>()
     var selectedItem = MutableLiveData<Email>()
     var addedItem = MutableLiveData<Email>()
+    var appWorker: OneTimeWorkRequest? = null
+    val workManager = WorkManager.getInstance(application.applicationContext)
+    private val constraints = Constraints.Builder()
+        .setRequiredNetworkType(NetworkType.CONNECTED)
+        .build()
 
+    fun startPeriodicTask(){
+        val periodicWorker = PeriodicWorkRequest.Builder(PeriodicWorker::class.java,15,TimeUnit.MINUTES)
+            .setConstraints(constraints)
+            .build()
+        workManager.enqueueUniquePeriodicWork("Data Sync",ExistingPeriodicWorkPolicy.KEEP,periodicWorker)
+    }
     fun setSelectedItem(email:Email){
         selectedItem.value=email
     }
@@ -24,8 +39,25 @@ class MainActivityViewModel : ViewModel() {
     fun addItem(email:Email){
         emailListVM.add(0,email)
         addedItem.value = email
+
     }
 
+    fun enqueueSendEmailWork(inputData: Data?){
+        appWorker = OneTimeWorkRequest.Builder(AppWorker::class.java)
+            .addTag("sender")
+            .setConstraints(constraints)
+            .setInputData(inputData ?: Data.Builder().build())
+            .build()
+        workManager.enqueue(appWorker!!)
+    }
+    fun enqueueDownloadWork(inputData: Data?){
+        val appWorker = OneTimeWorkRequest.Builder(AppWorker::class.java)
+            .addTag("downloader")
+            .setInputData(inputData ?: Data.Builder().build())
+            .setConstraints(constraints)
+            .build()
+        workManager.enqueue(appWorker)
+    }
 //    var is Read
 
     init {

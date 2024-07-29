@@ -1,6 +1,5 @@
 package com.example.customemaildetailflow
 
-import android.content.res.Configuration
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,10 +9,12 @@ import android.widget.ImageView
 import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.transition.TransitionInflater
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.MaterialToolbar
 
@@ -35,6 +36,7 @@ class EmailDetailFragment : Fragment() {
     private var currentTitle=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        println("On Create")
         viewModel = ViewModelProvider(requireActivity())[MainActivityViewModel::class.java]
     }
     override fun onCreateView(
@@ -50,6 +52,22 @@ class EmailDetailFragment : Fragment() {
         view.transitionName = arguments?.getString("transitionName")
         profileView = view.findViewById(R.id.profileView)
         scrollView = view.findViewById(R.id.scrollViewEmailDetail)
+        view.findViewById<ImageView>(R.id.downloadAttachment).apply {
+            setOnClickListener {
+                viewModel.enqueueDownloadWork(Data.Builder().putString("work","downloadData").build())
+                visibility = View.INVISIBLE
+            }
+        }
+        view.findViewById<ImageView>(R.id.downloadAttachment1).apply {
+            setOnClickListener {
+                viewModel.enqueueDownloadWork(
+                    Data.Builder().putString("work", "downloadData").build()
+                )
+                visibility = View.INVISIBLE
+            }
+        }
+        println("resources123: ${resources.configuration.screenWidthDp}")
+        println("resources123: ${resources.configuration.screenWidthDp<700}")
         if(resources.configuration.screenWidthDp<700){
             title = view.findViewById(R.id.title)
             toolbar = view.findViewById(R.id.toolbar)
@@ -68,6 +86,17 @@ class EmailDetailFragment : Fragment() {
             }
         }
         else{
+            println("Email Detail 12203 ${viewModel.appWorker==null}")
+            println("Email Detail 12203 ${viewModel.appWorker}")
+            if(viewModel.appWorker!=null && !viewModel.seen){
+                println("Email Detail 12203${viewModel.appWorker}")
+                viewModel.workManager.getWorkInfoByIdLiveData(viewModel.appWorker!!.id).observe(viewLifecycleOwner){
+                    if((it != null) &&(it.state== WorkInfo.State.ENQUEUED)){
+                        Toast.makeText(context,"Email will be sent automatically once the device is online",Toast.LENGTH_SHORT).show()
+                    }
+                }
+                viewModel.seen = true
+            }
             titleTool = view.findViewById(R.id.titleTool)
             titleTool.menu.findItem(R.id.markAsRead).setOnMenuItemClickListener {
                 updateView(emailG,true)
@@ -117,14 +146,26 @@ class EmailDetailFragment : Fragment() {
                 viewModel.selectedItem.value = email
             }
         })
+        println("On CreateView")
         return view
     }
     override fun onDestroy() {
         super.onDestroy()
+        println("On Destroy")
     }
 
-    fun updateView(email:Email,flag:Boolean){
+    private fun updateView(email:Email, flag:Boolean){
         email.isViewed = flag
         viewModel.setSelectedItem(email)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        println("On Resume")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        println("On Stop")
     }
 }

@@ -26,7 +26,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/titleTool"
                 android:layout_width="match_parent"
@@ -110,6 +109,83 @@
                 android:textSize="26sp"
                 app:layout_constraintTop_toBottomOf="@+id/heading"
                 tools:layout_editor_absoluteX="112dp" />
+            <TextView
+                android:id="@+id/attachmentText"
+                android:layout_marginTop="100dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:text="Attachments"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/content" />
+            <LinearLayout
+                android:paddingStart="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/attachmentText">
+
+                <ImageView
+                    android:layout_marginTop="20dp"
+                    android:id="@+id/img1"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:src="@drawable/tree"/>
+
+                <LinearLayout
+                    android:layout_marginTop="-10dp"
+                    android:background = "#CDDDED"
+                    android:padding="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="fileName"
+                        android:id="@+id/attachment"
+                        android:paddingEnd="10dp"
+                        android:textAlignment="center"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/downloadAttachment"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_file_download_24" />
+                </LinearLayout>
+                <ImageView
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/img2"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:src="@drawable/tree">
+                </ImageView>
+
+                <LinearLayout
+                    android:layout_marginTop="-10dp"
+                    android:background = "#CDDDED"
+                    android:padding="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="fileName"
+                        android:id="@+id/attachment1"
+                        android:paddingEnd="10dp"
+                        android:textAlignment="center"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/downloadAttachment1"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_file_download_24" />
+                </LinearLayout>
+            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

@@ -1,31 +1,28 @@
 package com.example.customemaildetailflow
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.RadioGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.core.view.children
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.work.Constraints
+import androidx.work.Data
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
-import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 
 class ComposeEmailFragment : Fragment() {
 
@@ -43,14 +40,14 @@ class ComposeEmailFragment : Fragment() {
 
 //        ViewModel Initialization
         viewModel = ViewModelProvider(requireActivity())[MainActivityViewModel::class.java]
-
+//        val connectivityManager = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+//        val hasNetwork = (connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)==true)
         //        UI Initialization
         val checkBox =view.findViewById<CheckBox>(R.id.checkBox)
         val editTextTo = view.findViewById<TextInputEditText>(R.id.textTo)
         val subject = view.findViewById<TextInputEditText>(R.id.textSubject)
         val emailContent = view.findViewById<EditText>(R.id.emailContent)
         val radioGroup = view.findViewById<RadioGroup>(R.id.radioGroup)
-
         val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbar)
 
 
@@ -103,14 +100,12 @@ class ComposeEmailFragment : Fragment() {
             if((editTextTo.text != null) && (subject.text != null) && (emailContent.text != null)&&(radioGroup.checkedRadioButtonId!=-1)){
                 viewModel.addItem(Email(title = editTextTo.text.toString(), subtitle = subject.text.toString(), date = "07 july",
                     content = emailContent.text.toString(), isStarred = false, isViewed = false, important = emailType, notifySender = checkBox.isChecked))
-                val constraints = Constraints.Builder()
-                    .setRequiredNetworkType(NetworkType.CONNECTED)
-                    .build()
-                val workManager = WorkManager.getInstance(requireActivity().applicationContext)
-                val emailSender = OneTimeWorkRequest.Builder(DBSyncWorkers::class.java)
-                    .setConstraints(constraints)
-                    .build()
-                workManager.enqueue(emailSender)
+
+                viewModel.enqueueSendEmailWork(
+                    Data.Builder()
+                        .putString("work", "sendEmail")
+                        .build())
+               viewModel.seen = false
                 editTextTo.text = null
                 subject.text = null
                 emailContent.text = null
@@ -125,5 +120,9 @@ class ComposeEmailFragment : Fragment() {
             true
         }
         return view
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }
