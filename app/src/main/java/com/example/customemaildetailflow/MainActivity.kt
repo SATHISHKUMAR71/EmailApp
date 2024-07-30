@@ -17,7 +17,6 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
-
     private lateinit var appbar:AppBarLayout
     private lateinit var toolbar:MaterialToolbar
 

@@ -1,6 +1,9 @@
 package com.example.customemaildetailflow
 
+import android.animation.Animator
+import android.animation.ObjectAnimator
 import android.content.Context
+import android.graphics.Rect
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
@@ -10,11 +13,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.RadioGroup
+import android.widget.ScrollView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
+import androidx.transition.Visibility
 import androidx.work.Constraints
 import androidx.work.Data
 import androidx.work.NetworkType
@@ -28,9 +35,7 @@ class ComposeEmailFragment : Fragment() {
 
     private lateinit var viewModel: MainActivityViewModel
     private var emailType = ""
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,9 +45,7 @@ class ComposeEmailFragment : Fragment() {
 
 //        ViewModel Initialization
         viewModel = ViewModelProvider(requireActivity())[MainActivityViewModel::class.java]
-//        val connectivityManager = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-//        val hasNetwork = (connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)==true)
-        //        UI Initialization
+//        UI Initialization
         val checkBox =view.findViewById<CheckBox>(R.id.checkBox)
         val editTextTo = view.findViewById<TextInputEditText>(R.id.textTo)
         val subject = view.findViewById<TextInputEditText>(R.id.textSubject)
@@ -70,28 +73,18 @@ class ComposeEmailFragment : Fragment() {
             requireActivity().supportFragmentManager.popBackStack()
         }
         toolbar.menu.findItem(R.id.sendEmail).setOnMenuItemClickListener {
-            println(editTextTo.text)
-            println(checkBox.isChecked)
-            println(editTextTo.text)
-            println(subject.text)
-            println(emailContent.text)
             checkBox.isChecked = false
-            println(radioGroup.checkedRadioButtonId)
             when(radioGroup.checkedRadioButtonId){
                 R.id.radioBtnImportant ->{
-                    println("Important")
                     emailType = "Important"
                 }
                 R.id.radioBtnSocial -> {
-                    println("Social")
                     emailType = "Social"
                 }
                 R.id.radioBtnBusiness -> {
-                    println("Business")
                     emailType = "Business"
                 }
                 R.id.radioBtnPersonnel -> {
-                    println("Personnel")
                     emailType = "Personnel"
                 }
             }
@@ -100,11 +93,11 @@ class ComposeEmailFragment : Fragment() {
                     content = emailContent.text.toString(), isStarred = false, isViewed = false, important = emailType, notifySender = checkBox.isChecked,
                     listOf("Demo file"))
                 )
-
                 viewModel.enqueueSendEmailWork(
                     Data.Builder()
                         .putString("work", "sendEmail")
                         .build())
+//                Clearing the data
                viewModel.seen = false
                 editTextTo.text = null
                 subject.text = null
@@ -120,9 +113,5 @@ class ComposeEmailFragment : Fragment() {
             true
         }
         return view
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 }

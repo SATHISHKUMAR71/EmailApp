@@ -14,6 +14,7 @@ import androidx.work.Data
 import androidx.work.WorkInfo
 
 class AttachmentView(private var attachmentList:List<String>, private var viewModel: MainActivityViewModel,private val lifecycle: LifecycleOwner) :RecyclerView.Adapter<AttachmentView.AttachmentHolder>(){
+
     inner class AttachmentHolder(attachmentView:View):RecyclerView.ViewHolder(attachmentView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AttachmentHolder {
