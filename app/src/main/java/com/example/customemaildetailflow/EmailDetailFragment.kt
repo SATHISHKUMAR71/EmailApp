@@ -75,9 +75,6 @@ class EmailDetailFragment : Fragment() {
             }
         }
         else{
-
-            println("Email Detail 12203 ${viewModel.appWorker==null}")
-            println("Email Detail 12203 ${viewModel.appWorker}")
             if(viewModel.appWorker!=null && !viewModel.seen){
                 println("Email Detail 12203${viewModel.appWorker}")
                 viewModel.workManager.getWorkInfoByIdLiveData(viewModel.appWorker!!.id).observe(viewLifecycleOwner){

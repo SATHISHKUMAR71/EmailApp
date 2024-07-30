@@ -30,9 +30,7 @@ class AppWorker(context: Context, workerParameters: WorkerParameters):Worker(con
     }
 
     override fun doWork(): Result {
-
         if(inputData.getString("work").equals("sendEmail")){
-            Thread.sleep(2000)
             println("Work Finished")
             val handler = Handler(Looper.getMainLooper())
             handler.post {

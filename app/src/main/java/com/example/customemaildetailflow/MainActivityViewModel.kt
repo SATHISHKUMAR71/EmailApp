@@ -27,7 +27,7 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
         .build()
 
     fun startPeriodicTask(){
-        val periodicWorker = PeriodicWorkRequest.Builder(PeriodicWorker::class.java,15,TimeUnit.MINUTES)
+        val periodicWorker = PeriodicWorkRequest.Builder(PeriodicSyncWorker::class.java,15,TimeUnit.MINUTES)
             .setConstraints(constraints)
             .build()
         workManager.enqueueUniquePeriodicWork("Data Sync",ExistingPeriodicWorkPolicy.KEEP,periodicWorker)
