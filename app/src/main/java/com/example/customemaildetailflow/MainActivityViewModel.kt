@@ -26,12 +26,7 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
         .setRequiredNetworkType(NetworkType.CONNECTED)
         .build()
 
-    fun startPeriodicTask(){
-        val periodicWorker = PeriodicWorkRequest.Builder(PeriodicSyncWorker::class.java,15,TimeUnit.MINUTES)
-            .setConstraints(constraints)
-            .build()
-        workManager.enqueueUniquePeriodicWork("Data Sync",ExistingPeriodicWorkPolicy.KEEP,periodicWorker)
-    }
+
     fun setSelectedItem(email:Email){
         selectedItem.value=email
     }
@@ -39,7 +34,6 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     fun addItem(email:Email){
         emailListVM.add(0,email)
         addedItem.value = email
-
     }
 
     fun enqueueSendEmailWork(inputData: Data?){
@@ -51,14 +45,14 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
         workManager.enqueue(appWorker!!)
     }
     fun enqueueDownloadWork(inputData: Data?){
-        val appWorker = OneTimeWorkRequest.Builder(AppWorker::class.java)
+        appWorker = OneTimeWorkRequest.Builder(AppWorker::class.java)
             .addTag("downloader")
             .setInputData(inputData ?: Data.Builder().build())
             .setConstraints(constraints)
             .build()
-        workManager.enqueue(appWorker)
+        workManager.enqueue(appWorker!!)
     }
-//    var is Read
+
 
     init {
         emailListVM.add(

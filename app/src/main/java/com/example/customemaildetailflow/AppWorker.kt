@@ -17,11 +17,13 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import java.util.concurrent.atomic.AtomicInteger
 
 
 class AppWorker(context: Context, workerParameters: WorkerParameters):Worker(context,workerParameters) {
 
     private val notificationManager1 = NotificationManagerCompat.from(applicationContext)
+//    private var notificationGenerator = AtomicInteger(0)
 
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -75,7 +77,7 @@ class AppWorker(context: Context, workerParameters: WorkerParameters):Worker(con
     private fun showProgressNotification(progress:Int){
         val notification = NotificationCompat.Builder(applicationContext,"EmailNotificationID")
             .setContentTitle("Data Downloading")
-            .setContentText("${((progress.toFloat()/20000F)*100).toInt()}")
+            .setContentText("${((progress.toFloat()/20000F)*100).toInt()} %")
             .setSmallIcon(R.drawable.ic_launcher_background)
             .setProgress(20000,progress,false)
             .setAutoCancel(true)

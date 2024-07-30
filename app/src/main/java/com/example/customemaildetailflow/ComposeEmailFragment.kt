@@ -50,8 +50,6 @@ class ComposeEmailFragment : Fragment() {
         val radioGroup = view.findViewById<RadioGroup>(R.id.radioGroup)
         val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbar)
 
-
-
         val emailRegex = Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}\$")
         editTextTo.addTextChangedListener(object:
             TextWatcher {

@@ -8,10 +8,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import androidx.work.Data
+import androidx.work.WorkInfo
 
-class AttachmentView(private var attachmentList:List<String>, private var viewModel: MainActivityViewModel) :RecyclerView.Adapter<AttachmentView.AttachmentHolder>(){
+class AttachmentView(private var attachmentList:List<String>, private var viewModel: MainActivityViewModel,private val lifecycle: LifecycleOwner) :RecyclerView.Adapter<AttachmentView.AttachmentHolder>(){
     inner class AttachmentHolder(attachmentView:View):RecyclerView.ViewHolder(attachmentView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AttachmentHolder {

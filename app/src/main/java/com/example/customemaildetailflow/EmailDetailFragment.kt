@@ -76,7 +76,6 @@ class EmailDetailFragment : Fragment() {
         }
         else{
             if(viewModel.appWorker!=null && !viewModel.seen){
-                println("Email Detail 12203${viewModel.appWorker}")
                 viewModel.workManager.getWorkInfoByIdLiveData(viewModel.appWorker!!.id).observe(viewLifecycleOwner){
                     if((it != null) &&(it.state== WorkInfo.State.ENQUEUED)){
                         Toast.makeText(context,"Email will be sent automatically once the device is online",Toast.LENGTH_SHORT).show()
@@ -99,8 +98,7 @@ class EmailDetailFragment : Fragment() {
         view.visibility = View.INVISIBLE
 
         viewModel.selectedItem.observe(viewLifecycleOwner, Observer { email ->
-
-             recyclerView.adapter = AttachmentView(email.attachments,viewModel)
+             recyclerView.adapter = AttachmentView(email.attachments,viewModel,viewLifecycleOwner)
             emailG = email
             view.visibility = View.VISIBLE
             scrollView.scrollTo(0,0)
@@ -135,11 +133,10 @@ class EmailDetailFragment : Fragment() {
                 viewModel.selectedItem.value = email
             }
         })
+
         println("On CreateView")
         return view
     }
-
-
     override fun onDestroy() {
         super.onDestroy()
         println("On Destroy")

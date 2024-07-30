@@ -18,8 +18,8 @@ class EmailApplication:Application(),Configuration.Provider {
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder()
             .setExecutor(ThreadPoolExecutor(
-                6,
                 10,
+                12,
                 60L,
                 TimeUnit.SECONDS,
                 LinkedBlockingQueue()
